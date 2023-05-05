@@ -5,20 +5,37 @@ using UnityEngine;
 public class Staff : MonoBehaviour, IWeapon
 {
     [SerializeField] private WeaponInfo weaponInfo;
+    [SerializeField] private GameObject magicBoltPrefab;
+    [SerializeField] private Transform magicBoltSpawnPoint;
 
-    public void Update()
+    private Animator myAnimator;
+
+    readonly int FIRE_HASH = Animator.StringToHash("Fire");
+
+    private void Awake()
+    {
+        myAnimator = GetComponent<Animator>();
+    }
+
+    private void Update()
     {
         MouseFollowWithOffset();
     }
 
     public void Attack()
     {
-        Debug.Log("Staff attack");
+        myAnimator.SetTrigger(FIRE_HASH);
     }
 
     public WeaponInfo GetWeaponInfo()
     {
         return this.weaponInfo;
+    }
+
+    public void SpawnStaffProjectileAnimEvent()
+    {
+        GameObject newMagicBolt = Instantiate(magicBoltPrefab, magicBoltSpawnPoint.position, Quaternion.identity);
+        newMagicBolt.GetComponent<MagicBolt>().UpdateBoltRange(this.weaponInfo.WeaponRange);
     }
 
     private void MouseFollowWithOffset()
