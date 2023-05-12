@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 907601935466090342}
   - component: {fileID: 2342387904389627867}
   - component: {fileID: 7226675528226550595}
+  - component: {fileID: -1650952763883474224}
   m_Layer: 0
   m_Name: GhostEnemy
   m_TagString: Untagged
@@ -227,6 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roamChangeDirectionTimer: 2
+  attackRange: 5
+  enemyType: {fileID: -1650952763883474224}
 --- !u!114 &529965244250857169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,3 +296,16 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-1650952763883474224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529965244250857004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b659269800601034591dd5b54525c176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPreFab: {fileID: 9016369362066865681, guid: b28ce91118561064e9a7e03edb25c646, type: 3}

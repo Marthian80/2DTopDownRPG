@@ -6,8 +6,9 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 15f;
     [SerializeField] private GameObject particleOnHitVFX;
+    [SerializeField] private bool isEnemyProjectile = false;
+    [SerializeField] private float projectileRange = 10f;
 
-    private WeaponInfo weaponInfo;
     private Vector3 startPosition;
 
     private void Start()
@@ -21,25 +22,40 @@ public class Projectile : MonoBehaviour
         DetectFireDistance();
     }
 
-    public void SetWeaponInfo(WeaponInfo weaponInfo)
+    public void SetRange(float projectileRange)
     {
-        this.weaponInfo = weaponInfo;
+        this.projectileRange = projectileRange;
+    }
+
+    public void SetSpeed(float projectileSpeed)
+    {
+        this.moveSpeed = projectileSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         EnemyHealth enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
         Indestructable indestructable = collision.gameObject.GetComponent<Indestructable>();
+        PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
 
-        if (!collision.isTrigger && (enemyHealth || indestructable))
+        if (!collision.isTrigger && (enemyHealth || indestructable || player))
         {            
-            ProjectileHitDetected();
+            if ((player && isEnemyProjectile) || (enemyHealth && !isEnemyProjectile))
+            {
+                player?.TakeDamage(1, transform);
+                ProjectileHitDetected();
+            }
+            else if(!collision.isTrigger && indestructable)
+            {
+                ProjectileHitDetected();
+            }
+            
         }        
     }
 
     private void DetectFireDistance()
     {
-        if (Vector3.Distance(transform.position, startPosition) > this.weaponInfo.WeaponRange)
+        if (Vector3.Distance(transform.position, startPosition) > this.projectileRange)
         {
             Destroy(gameObject);
         }
@@ -52,7 +68,7 @@ public class Projectile : MonoBehaviour
 
     private void ProjectileHitDetected()
     {
-        Instantiate(particleOnHitVFX, transform.position, Quaternion.identity);
+        Instantiate(particleOnHitVFX, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

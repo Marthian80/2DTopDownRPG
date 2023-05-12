@@ -27,7 +27,7 @@ public class EnemyPathfinding : MonoBehaviour
         {
             spriteRenderer.flipX = true;
         }
-        else
+        else if (moveDirection.x > 0)
         {
             spriteRenderer.flipX = false;
         }
@@ -41,5 +41,10 @@ public class EnemyPathfinding : MonoBehaviour
     public void SetTarget(Vector2 targetPos)
     {
         moveDirection = targetPos;
+    }
+
+    public void StopMoving()
+    {
+        moveDirection = Vector2.zero;
     }
 }
